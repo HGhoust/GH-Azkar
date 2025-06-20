@@ -1,0 +1,10 @@
+@reference '@/app/styles/index.css';
+
+.layout {
+	@apply relative pt-9 pb-2 flex flex-col h-full;
+}
+
+.textWrapper {
+	touch-action: pan-y;
+	@apply flex-1 overflow-auto;
+}

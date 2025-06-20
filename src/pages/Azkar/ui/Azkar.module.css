@@ -1,0 +1,6 @@
+@reference '@/app/styles/index.css';
+
+.text {
+	touch-action: pan-y;
+	@apply text-2xl p-5 text-right leading-11 items-center;
+}

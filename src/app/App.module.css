@@ -1,0 +1,9 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply p-4 h-dvh  w-dvw bg-dark-gray overflow-y-scroll lg:w-auto lg:fixed lg:left-70 lg:right-70;
+}
+
+:global(.dark) .wrapper {
+	@apply bg-dark-primary left-0 right-0 top-0 bottom-0 rounded-none;
+}

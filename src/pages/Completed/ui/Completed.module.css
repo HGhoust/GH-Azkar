@@ -1,0 +1,9 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply w-full absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-4;
+}
+
+.text {
+	@apply text-2xl;
+}

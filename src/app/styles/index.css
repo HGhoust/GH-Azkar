@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-dark-gray: #f8f8f8;
+	--color-black: #040404;
+	--color-dark-black: #181818;
+	--color-dark-primary: #3f404d;
+	--color-dark-accent: #31323e;
+	--color-dark-text: #a1a3ae;
+	--color-accent-gray: #858585;
+}
+
+* {
+	box-sizing: border-box;
+	user-select: none;
+}
+
+*::-webkit-scrollbar {
+	display: none;
+}
+
+:root {
+	@apply text-black dark:text-dark-text;
+	font-family: 'Open Sans', sans-serif;
+	font-optical-sizing: auto;
+
+	color-scheme: light dark;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow: hidden;
+	touch-action: none;
+}
+
+#root {
+	@apply bg-dark-gray dark:bg-dark-primary;
+	min-width: 100dvw;
+	min-height: 100dvh;
+}
+
+body {
+	margin: 0;
+}
+
+h1 {
+	font-size: 2em;
+	line-height: 1.1;
+	font-weight: 600;
+}
+
+h3 {
+	font-size: 1.3em;
+	line-height: 1.1;
+	font-weight: 600;
+}

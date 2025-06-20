@@ -1,0 +1,5 @@
+@reference '@/app/styles/index.css';
+
+.countButton {
+	@apply border border-gray-200 rounded-2xl flex-1 p-4;
+}

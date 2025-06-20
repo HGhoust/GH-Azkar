@@ -1,0 +1,5 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply flex flex-col justify-center gap-5 lg:mx-70 content-center h-full;
+}

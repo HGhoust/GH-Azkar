@@ -1,0 +1,5 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply relative h-full;
+}
