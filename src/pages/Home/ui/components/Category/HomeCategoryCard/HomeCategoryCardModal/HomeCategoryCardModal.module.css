@@ -1,0 +1,33 @@
+@reference '@/app/styles/index.css';
+
+.modalWrapper {
+	@apply h-full pt-5;
+}
+
+.modalIconWrapper {
+	@apply absolute top-3 left-3  flex items-end gap-2;
+}
+
+.modalIcon {
+	@apply size-9;
+}
+
+.modalIconText {
+	@apply text-lg font-bold text-dark-accent;
+}
+
+.modalAzkarText {
+	@apply text-2xl p-5 text-right leading-11 items-center;
+}
+
+:global(.dark) .modalIcon {
+	@apply text-white;
+}
+
+:global(.dark) .modalIconText {
+	@apply text-shadow-white;
+}
+
+:global(.dark) .modalAzkarText {
+	@apply text-text-white;
+}

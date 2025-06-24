@@ -1,10 +1,14 @@
 import { IconComponent } from '@/shared/types'
 import { Button } from '@/shared/ui/Button'
+
 import { PagesLayout } from '@/widgets/Layouts/PagesLayout'
+
+import { aboutUsButtons } from '../model/AboutUs.data'
+
+import Styles from './AboutUs.module.css'
+
 import Instagram from '../assets/icons/instagram.svg?react'
 import Telegram from '../assets/icons/telegram.svg?react'
-import { aboutUsButtons } from '../model/AboutUs.data'
-import Styles from './AboutUs.module.css'
 
 const iconMap: Record<string, IconComponent> = {
 	telegram: Telegram,

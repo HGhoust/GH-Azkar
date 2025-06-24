@@ -1,0 +1,17 @@
+@reference '@/app/styles/index.css';
+
+.button {
+	@apply flex flex-col w-full h-full gap-1 justify-center items-center text-accent-gray;
+}
+
+.title {
+	@apply text-black;
+}
+
+:global(.dark) .button {
+	@apply text-dark-accent;
+}
+
+:global(.dark) .title {
+	@apply text-text-white;
+}

@@ -7,3 +7,11 @@
 :global(.dark) .button {
 	@apply border-0 bg-dark-accent text-dark-text;
 }
+
+.layout {
+	@apply flex flex-col gap-13 overflow-y-scroll pb-20;
+}
+
+.accentButton {
+	@apply absolute right-0 text-sm pt-1.5 text-dark-accent z-10;
+}

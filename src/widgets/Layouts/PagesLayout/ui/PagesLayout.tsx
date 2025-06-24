@@ -12,7 +12,7 @@ export const PagesLayout = ({ children, className }: Props) => {
 	return (
 		<>
 			<div className={clsx(Styles.wrapper, className)}>{children}</div>
-			<div className='absolute bottom-0 right-0'>
+			<div className={Styles.navigateBarWrapper}>
 				<NavigateBar />
 			</div>
 		</>

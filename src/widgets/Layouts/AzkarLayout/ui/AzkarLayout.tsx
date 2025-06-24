@@ -1,13 +1,17 @@
+import { AnimatePresence, motion, Variants } from 'motion/react'
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+
+import { useNavigate, useParams } from 'react-router'
+
+import { useDebounceCallBack } from '@/shared/lib/hooks/useDebounceCallBack'
 import type { timeOfDay } from '@/shared/types'
+import { BackButton, CountButton } from '@/shared/ui'
 
 import { useAzkarStore } from '@/entities/data/model/azkarStore'
-import { useDebounceCallBack } from '@/shared/lib/hooks/useDebounceCallBack'
-import { BackButton } from '@/shared/ui/BackButton'
-import { CountButton } from '@/shared/ui/CountButton'
-import { AnimatePresence, motion, Variants } from 'motion/react'
-import { ReactNode, useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
-import { useSwipeable } from 'react-swipeable'
+import { TDirection } from './azkarLayout.types'
+
+import { useSwiped } from './useSwiped'
+
 import Styles from './AzkarLayout.module.css'
 
 interface Props {
@@ -19,8 +23,9 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 	const navigate = useNavigate()
 	const { id } = useParams<{ id: string }>()
 	const currentParamsId = id && !isNaN(Number(id)) ? Number(id) : 0
-
-	const [swiped, setSwiped] = useState<'left' | 'right' | null>(null)
+	const isFirstRender = useRef(true)
+	const textElement = useRef<HTMLDivElement>(null)
+	const [swiped, setSwiped] = useState<TDirection | null>(null)
 
 	const { setAzkar, filteredAzkarsOfTime } = useAzkarStore()
 
@@ -29,68 +34,64 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 		300
 	)
 
-	const isAzkarId = currentParamsId < filteredAzkarsOfTime.length - 1
+	const { handlers } = useSwiped({
+		currentParamsId,
+		debounceNavigate,
+		filteredLength: filteredAzkarsOfTime?.length,
+		pathName,
+		setSwiped,
+	})
 
 	const variants: Variants = {
-		initial: (swipe: 'left' | 'right') => ({
-			x: swipe === 'left' ? 600 : -600,
+		initial: {
+			opacity: isFirstRender.current ? 0 : 1,
+		},
+		exit: (swipe: TDirection) => ({
+			x: swipe === 'left' ? -100 : 100,
 			opacity: 0,
 		}),
 		animate: { x: 0, opacity: 1 },
 	}
 
-	const handlers = useSwipeable({
-		onSwipedLeft: () => {
-			if (isAzkarId) {
-				setSwiped('left')
-				debounceNavigate(`/${pathName}/${currentParamsId + 1}`)
-			}
-		},
-		onSwipedRight: () => {
-			if (currentParamsId > 0) {
-				setSwiped('right')
-				debounceNavigate(`/${pathName}/${currentParamsId - 1}`)
-			}
-		},
-		trackTouch: true,
-		trackMouse: true,
-	})
-
-	const textElement = useRef<HTMLDivElement>(null)
-
-	const scrollToTop = () => {
+	const scrollToTop = useCallback(() => {
+		setSwiped('left')
 		if (textElement.current?.scrollTop ?? 0 > 100) {
-			textElement.current?.scrollTo({ top: 0, behavior: 'smooth' })
+			textElement.current?.scrollTo({ top: 0, behavior: 'auto' })
 		}
-	}
+	}, [])
 
 	useEffect(() => {
 		setAzkar(currentParamsId, pathName)
 		scrollToTop()
 	}, [id, pathName])
 
+	useEffect(() => {
+		isFirstRender.current = false
+	}, [])
+
 	return (
-		<AnimatePresence>
-			<motion.div
-				className={Styles.layout}
-				variants={variants}
-				{...handlers}
-				key={id}
-				initial='initial'
-				animate='animate'
-				custom={swiped}
-				transition={{ duration: 0.2, ease: 'easeOut' }}
-			>
-				<BackButton />
-				<div className={Styles.textWrapper} ref={textElement}>
+		<motion.div className={Styles.layout} {...handlers}>
+			<BackButton />
+			<AnimatePresence mode='wait'>
+				<motion.div
+					variants={variants}
+					key={id}
+					initial='initial'
+					animate='animate'
+					exit='exit'
+					custom={swiped}
+					transition={{ duration: 0.4, ease: 'backIn' }}
+					className={Styles.textWrapper}
+					ref={textElement}
+				>
 					{children}
-				</div>
-				<CountButton
-					scrollToTop={scrollToTop}
-					path={`/${pathName}/${currentParamsId + 1}`}
-					isAzkarId={isAzkarId}
-				/>
-			</motion.div>
-		</AnimatePresence>
+				</motion.div>
+			</AnimatePresence>
+			<CountButton
+				scrollToTop={scrollToTop}
+				path={`/${pathName}/${currentParamsId + 1}`}
+				isAzkarId={currentParamsId < filteredAzkarsOfTime?.length - 1}
+			/>
+		</motion.div>
 	)
 }

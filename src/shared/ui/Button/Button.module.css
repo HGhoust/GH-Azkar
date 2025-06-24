@@ -5,5 +5,5 @@
 }
 
 :global(.dark) .button {
-	@apply border-0 bg-dark-accent text-dark-text;
+	@apply bg-dark-primary text-white;
 }

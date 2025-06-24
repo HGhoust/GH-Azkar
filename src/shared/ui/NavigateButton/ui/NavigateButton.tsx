@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { ButtonHTMLAttributes } from 'react'
+import Styles from './NavigateButton.module.css'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 	title: string
@@ -15,13 +16,7 @@ export const NavigateButton = ({
 }: Props) => {
 	return (
 		<button
-			className={clsx(
-				'flex flex-col w-full h-full gap-1 justify-center items-center text-accent-gray',
-				{
-					'text-black': active,
-				},
-				className
-			)}
+			className={clsx(Styles.button, { [Styles.title]: active }, className)}
 			{...rest}
 		>
 			{children}

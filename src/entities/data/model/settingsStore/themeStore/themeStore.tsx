@@ -1,21 +1,20 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+export type TTheme = 'dark' | 'light' | (string & {})
+
 interface IThemeStore {
-	theme: 'dark' | 'light'
-	toggleTheme: () => void
+	theme: TTheme
+	setTheme: (theme: TTheme) => void
 }
 
 export const useThemeStore = create<IThemeStore>()(
 	persist(
-		(set, get) => ({
+		set => ({
 			theme: window.matchMedia('(prefers-color-scheme: dark)').matches
 				? 'dark'
 				: 'light',
-			toggleTheme: () =>
-				set({
-					theme: get().theme === 'dark' ? 'light' : 'dark',
-				}),
+			setTheme: theme => set({ theme }),
 		}),
 		{
 			name: 'theme-storage',

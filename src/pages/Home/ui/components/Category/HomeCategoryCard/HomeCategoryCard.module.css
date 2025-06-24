@@ -1,0 +1,24 @@
+@reference '@/app/styles/index.css';
+
+.icon {
+	@apply size-5;
+}
+
+.count {
+	@apply text-accent-gray;
+}
+
+.cardButton {
+	@apply min-w-50 min-h-30 p-3  rounded-xl bg-white  shadow-sm flex flex-col gap-1 items-start;
+}
+
+.iconWrapper {
+	@apply flex items-center gap-2;
+}
+
+:global(.dark) .cardButton {
+	@apply bg-dark-primary;
+}
+:global(.dark) .count {
+	@apply text-shadow-white;
+}

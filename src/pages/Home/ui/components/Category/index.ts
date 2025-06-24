@@ -1,2 +1,2 @@
-export { HomeCategory } from './HomeCategory'
-export { HomeCategoryCard } from './HomeCategoryCard'
+export { HomeCategory } from './HomeCategory/HomeCategory'
+export { HomeCategoryCard } from './HomeCategoryCard/HomeCategoryCard'

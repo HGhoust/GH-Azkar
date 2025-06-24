@@ -1,11 +1,13 @@
 import Dua from '@/shared/assets/icons/dua.svg?react'
 import Note from '@/shared/assets/icons/note.svg?react'
 import Quran from '@/shared/assets/icons/quran.svg?react'
-import { IAzkar, timeOfDay } from '@/shared/types'
-import { TAzkarName } from '@/shared/types/azkarTypes'
-import { titles } from '../../../model/homeCategory.data'
-import { IconHomeCategoryObj } from '../../../types/homeCategory.types'
-import { HomeCategoryCard } from './HomeCategoryCard'
+
+import { titles } from '@/pages/Home/model/homeCategory.data'
+import { IconHomeCategoryObj } from '@/pages/Home/types/homeCategory.types'
+import { IAzkar, TAzkarName, timeOfDay } from '@/shared/types'
+import { HomeCategoryCard } from '../HomeCategoryCard/HomeCategoryCard'
+
+import Styles from './HomeCategory.module.css'
 
 interface Props {
 	azkars: IAzkar[]
@@ -24,14 +26,13 @@ const getIcon = (name: TAzkarName, iconMap: IconHomeCategoryObj) => {
 }
 
 export const HomeCategory = ({ azkars, title }: Props) => {
-	console.log(azkars)
 	return (
-		<div className='overflow-x-scroll py-1'>
-			<h3 className='sticky left-0'>{titles[title]}</h3>
-			<div className='flex items-center gap-2.5 pt-3'>
-				{azkars.map(azkar => {
+		<div className={Styles.wrapper}>
+			<h3 className={Styles.title}>{titles[title]}</h3>
+			<div className={Styles.azkars}>
+				{azkars.map((azkar, index) => {
 					const Icon = getIcon(azkar.name, iconMap)
-					return <HomeCategoryCard Icon={Icon} azkar={azkar} key={azkar.id} />
+					return <HomeCategoryCard Icon={Icon} azkar={azkar} key={index} />
 				})}
 			</div>
 		</div>

@@ -1,0 +1,13 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply bg-dark-gray  h-24 w-dvw z-10 flex justify-between shadow-sm pb-5;
+}
+
+.button {
+	@apply size-9;
+}
+
+:global(.dark) .wrapper {
+	@apply bg-dark-black;
+}

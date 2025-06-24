@@ -1,0 +1,17 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply fixed inset-0 z-40 bg-dark-gray/50 backdrop-blur-sm flex justify-center items-center;
+}
+
+.childrenWrapper {
+	@apply relative w-[85%] h-[85%] bg-white  flex items-center justify-center rounded-2xl z-20 overflow-y-scroll p-4;
+}
+
+:global(.dark) .wrapper {
+	@apply bg-dark-black/50;
+}
+
+:global(.dark) .childrenWrapper {
+	@apply bg-dark-primary;
+}

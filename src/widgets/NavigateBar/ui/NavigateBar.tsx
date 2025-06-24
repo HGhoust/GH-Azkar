@@ -6,6 +6,8 @@ import People from '../assets/icons/people.svg?react'
 import Settings from '../assets/icons/settings.svg?react'
 import { navigateBarButtons } from './navigateBar.data'
 
+import Styles from './NavigateBar.module.css'
+
 const iconMap: Record<string, IconComponent> = {
 	Category,
 	Settings,
@@ -17,7 +19,7 @@ export const NavigateBar = () => {
 	const navigate = useNavigate()
 
 	return (
-		<div className='bg-dark-gray h-24 w-dvw z-10 flex justify-between shadow-sm pb-5'>
+		<div className={Styles.wrapper}>
 			{navigateBarButtons.map(button => {
 				const Button = iconMap[button.name]
 				return (
@@ -27,7 +29,7 @@ export const NavigateBar = () => {
 						active={location.pathname === button.path}
 						onClick={() => navigate(button.path)}
 					>
-						<Button className='size-9' key={button.name} />
+						<Button className={Styles.button} key={button.name} />
 					</NavigateButton>
 				)
 			})}

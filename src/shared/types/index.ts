@@ -1,2 +1,2 @@
-export type { IAzkar, timeOfDay } from './azkarTypes'
-export type { IconComponent } from './types'
+export * from './azkarTypes'
+export * from './types'

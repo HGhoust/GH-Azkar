@@ -3,3 +3,7 @@
 .wrapper {
 	@apply relative h-full;
 }
+
+.navigateBarWrapper {
+	@apply absolute bottom-0 right-0;
+}

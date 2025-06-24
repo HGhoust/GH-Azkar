@@ -1,0 +1,13 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply overflow-x-scroll py-1;
+}
+
+.title {
+	@apply sticky left-0;
+}
+
+.azkars {
+	@apply flex items-center gap-2.5 pt-3;
+}

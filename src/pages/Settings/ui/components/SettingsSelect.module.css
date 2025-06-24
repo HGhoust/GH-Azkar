@@ -1,0 +1,9 @@
+@reference '@/app/styles/index.css';
+
+.wrapper {
+	@apply flex flex-col justify-center gap-5 lg:mx-70 content-center w-full h-full;
+}
+
+.button {
+	@apply flex items-center justify-between gap-3;
+}

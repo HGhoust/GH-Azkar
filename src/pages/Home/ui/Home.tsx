@@ -1,43 +1,37 @@
-import { useAzkarStore } from '@/entities/data/model/azkarStore'
-import { useModalStore } from '@/entities/data/model/modalStore/modalStore'
+import { data } from '@/shared/lib/data'
 import { timeOfDay } from '@/shared/types'
 import { PagesLayout } from '@/widgets/Layouts/PagesLayout'
 import { useNavigate } from 'react-router'
-import { HomeCategory } from './components/Category/HomeCategory'
-import { Modal } from './components/Modal'
+import { HomeCategory } from './components/Category/HomeCategory/HomeCategory'
+import Styles from './Home.module.css'
 
 export const Home = () => {
 	const navigate = useNavigate()
-	const azkarStore = useAzkarStore()
+
 	const onClick = (time: string) => {
 		navigate('/' + time + '/0')
 	}
 
 	const timeOfAzkars: timeOfDay[] = ['morning', 'evening', 'bed']
-	const { beforeClosed, toggle, children, setBeforeClosed } = useModalStore()
 
-	const onClose = () => {
-		toggle()
-		setTimeout(() => {
-			setBeforeClosed()
-		}, 500)
+	const azkarsOfCategory = (time: timeOfDay) => {
+		return data.filter(azkar => azkar.time.includes(time))
 	}
 
 	return (
 		<>
-			<PagesLayout className='flex flex-col gap-13 overflow-y-scroll pb-20'>
-				{beforeClosed && <Modal onClose={onClose}>{children}</Modal>}
+			<PagesLayout className={Styles.layout}>
 				<h1 className=''>GH Azkar</h1>
 				{timeOfAzkars.map((time, index) => {
 					return (
 						<div key={index}>
 							<span
-								className='absolute right-0 text-sm pt-1.5 text-accent-gray z-10'
+								className={Styles.accentButton}
 								onClick={() => onClick(time)}
 							>
 								Прочитать
 							</span>
-							<HomeCategory azkars={azkarStore[`${time}Azkars`]} title={time} />
+							<HomeCategory azkars={azkarsOfCategory(time)} title={time} />
 						</div>
 					)
 				})}
