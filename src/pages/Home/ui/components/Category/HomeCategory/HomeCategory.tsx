@@ -29,13 +29,15 @@ const getIcon = (name: TAzkarName, iconMap: IconHomeCategoryObj) => {
 
 export const HomeCategory = ({ azkars, title }: Props) => {
 	const store = useAzkarStore()
+
 	const counts = store[`${title}Azkars`]
 		.map(azkar => azkar.count)
 		.filter(count => count !== 0)
+
 	return (
 		<div className={Styles.wrapper}>
-			<div className='flex items-center gap-3'>
-				<h3 className={Styles.title}>{titles[title]}</h3>
+			<div className={Styles.title}>
+				<h3>{titles[title]}</h3>
 				{counts.length === 0 && <AcceptIcon className='size-5' />}
 			</div>
 			<div className={Styles.azkars}>

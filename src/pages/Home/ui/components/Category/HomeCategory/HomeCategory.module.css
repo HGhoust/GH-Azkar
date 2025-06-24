@@ -5,7 +5,7 @@
 }
 
 .title {
-	@apply sticky left-0;
+	@apply sticky left-0 flex items-center gap-3 overflow-x-hidden;
 }
 
 .azkars {
