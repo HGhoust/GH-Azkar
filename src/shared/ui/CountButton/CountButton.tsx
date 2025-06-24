@@ -1,7 +1,9 @@
 import { useAzkarStore } from '@/entities/data/model/azkarStore'
 import { useAzkarTextStore } from '@/entities/data/model/settingsStore'
+import AcceptIcon from '@/shared/assets/icons/accept.svg?react'
 import { timeOfDay } from '@/shared/types'
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'motion/react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import Styles from './CountButton.module.css'
 
@@ -25,18 +27,18 @@ export const CountButton = ({
 	const { id } = useParams()
 	const location = useLocation()
 	const paramsId = Number(id)
-	const azkarTime = location.pathname.split('/')[1] as timeOfDay
+	const pathName = location.pathname
+	const azkarTime = pathName.split('/')[1] as timeOfDay
 
 	const azkars = useAzkarStore(state => state[`${azkarTime}Azkars`])
 
 	const azkar = azkars?.find(azkar => azkar?.id === paramsId)
 
 	const onClick = () => {
+		decrementCount(paramsId, azkarTime)
 		if (azkar!.count > 1) {
-			decrementCount(paramsId, azkarTime)
 			scrollToTop()
 		} else if (isAzkarId) {
-			decrementCount(paramsId, azkarTime)
 			navigate(path)
 		} else {
 			navigate('/completed')
@@ -45,7 +47,44 @@ export const CountButton = ({
 
 	return (
 		<div className={clsx(className, Styles.countButton)} onClick={onClick}>
-			<span>Осталось {azkar?.count}</span>
+			<AnimatePresence mode='wait'>
+				{azkar?.count !== 0 ? (
+					<div className='flex items-center gap-1'>
+						<motion.span
+							key='count-mode'
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 0.5 }}
+						>
+							Осталось
+						</motion.span>
+						<motion.span
+							key='count-mode'
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ duration: 0.5 }}
+							exit={{ opacity: 0 }}
+						>
+							{azkar?.count}
+						</motion.span>
+					</div>
+				) : (
+					<motion.div
+						className='flex items-center gap-1.5'
+						key='completed-mode'
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 0.5 }}
+						exit={{ opacity: 0 }}
+					>
+						<motion.span key='completed-mode' transition={{ duration: 0.5 }}>
+							Прочитано
+						</motion.span>
+						<AcceptIcon className='size-4 dark:text-white' />
+					</motion.div>
+				)}
+			</AnimatePresence>
 			<span
 				className={Styles.transcription}
 				onClick={e => {

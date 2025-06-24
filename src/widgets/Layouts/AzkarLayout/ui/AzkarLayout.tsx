@@ -70,7 +70,7 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 	}, [])
 
 	return (
-		<motion.div className={Styles.layout} {...handlers}>
+		<div className={Styles.layout} {...handlers}>
 			<BackButton />
 			<AnimatePresence mode='wait'>
 				<motion.div
@@ -80,7 +80,7 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 					animate='animate'
 					exit='exit'
 					custom={swiped}
-					transition={{ duration: 0.4, ease: 'backIn' }}
+					transition={{ duration: 0.3, ease: 'backIn' }}
 					className={Styles.textWrapper}
 					ref={textElement}
 				>
@@ -92,6 +92,6 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 				path={`/${pathName}/${currentParamsId + 1}`}
 				isAzkarId={currentParamsId < filteredAzkarsOfTime?.length - 1}
 			/>
-		</motion.div>
+		</div>
 	)
 }

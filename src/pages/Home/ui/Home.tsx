@@ -1,3 +1,4 @@
+import { useAzkarStore } from '@/entities/data/model'
 import { data } from '@/shared/lib/data'
 import { timeOfDay } from '@/shared/types'
 import { PagesLayout } from '@/widgets/Layouts/PagesLayout'
@@ -7,9 +8,14 @@ import Styles from './Home.module.css'
 
 export const Home = () => {
 	const navigate = useNavigate()
+	const azkarStore = useAzkarStore()
 
-	const onClick = (time: string) => {
-		navigate('/' + time + '/0')
+	const notAcceptedAzkar = (time: timeOfDay) =>
+		azkarStore[`${time}Azkars`].find(azkar => azkar.count !== 0)
+
+	const onClick = (time: timeOfDay) => {
+		const getNotAccepted = notAcceptedAzkar(time)?.id
+		navigate('/' + time + '/' + (getNotAccepted ? getNotAccepted : 0))
 	}
 
 	const timeOfAzkars: timeOfDay[] = ['morning', 'evening', 'bed']

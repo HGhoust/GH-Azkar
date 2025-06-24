@@ -1,3 +1,4 @@
+import AcceptIcon from '@/shared/assets/icons/accept.svg?react'
 import Dua from '@/shared/assets/icons/dua.svg?react'
 import Note from '@/shared/assets/icons/note.svg?react'
 import Quran from '@/shared/assets/icons/quran.svg?react'
@@ -7,6 +8,7 @@ import { IconHomeCategoryObj } from '@/pages/Home/types/homeCategory.types'
 import { IAzkar, TAzkarName, timeOfDay } from '@/shared/types'
 import { HomeCategoryCard } from '../HomeCategoryCard/HomeCategoryCard'
 
+import { useAzkarStore } from '@/entities/data/model'
 import Styles from './HomeCategory.module.css'
 
 interface Props {
@@ -26,9 +28,16 @@ const getIcon = (name: TAzkarName, iconMap: IconHomeCategoryObj) => {
 }
 
 export const HomeCategory = ({ azkars, title }: Props) => {
+	const store = useAzkarStore()
+	const counts = store[`${title}Azkars`]
+		.map(azkar => azkar.count)
+		.filter(count => count !== 0)
 	return (
 		<div className={Styles.wrapper}>
-			<h3 className={Styles.title}>{titles[title]}</h3>
+			<div className='flex items-center gap-3'>
+				<h3 className={Styles.title}>{titles[title]}</h3>
+				{counts.length === 0 && <AcceptIcon className='size-5' />}
+			</div>
 			<div className={Styles.azkars}>
 				{azkars.map((azkar, index) => {
 					const Icon = getIcon(azkar.name, iconMap)

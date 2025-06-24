@@ -1,7 +1,11 @@
 @reference '@/app/styles/index.css';
 
 .layout {
-	@apply relative pt-9 pb-2 flex flex-col h-full;
+	@apply relative flex flex-col pt-9 pb-2 h-full;
+}
+
+.wrapper {
+	@apply flex flex-col h-full;
 }
 
 .textWrapper {
