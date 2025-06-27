@@ -1,26 +1,22 @@
 import { motion } from 'motion/react'
 import { useEffect, useRef } from 'react'
 
-import { useParams } from 'react-router'
-
 import {
 	useAzkarStore,
 	useAzkarTextStore,
 	useFontFamilyStore,
 } from '@/entities/data/model'
 
-import { timeOfDay } from '@/shared/types'
+import { useRouteParams } from '@/shared/lib/hooks/useRouteParams'
 import { AzkarLayout } from '@/widgets/Layouts/AzkarLayout'
 import Styles from './Azkar.module.css'
 
 export const Azkar = () => {
-	const { azkar, setAzkar } = useAzkarStore()
+	const { setAzkar, azkar } = useAzkarStore()
 	const { fontFamily } = useFontFamilyStore()
-
-	const { id, time } = useParams<{ id: string; time: timeOfDay }>()
+	const { id, timeOfDay } = useRouteParams()
 	const isFirstRender = useRef(true)
 
-	const timeOfDay: timeOfDay = time ? time : 'morning'
 	const { transcription } = useAzkarTextStore()
 
 	useEffect(() => {

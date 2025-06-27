@@ -21,7 +21,11 @@ export const Home = () => {
 	const timeOfAzkars: timeOfDay[] = ['morning', 'evening', 'bed']
 
 	const azkarsOfCategory = (time: timeOfDay) => {
-		return data.filter(azkar => azkar.time.includes(time))
+		return data
+			.filter(azkar => azkar.time.includes(time))
+			.map((azkar, index) => {
+				return { ...azkar, id: index }
+			})
 	}
 
 	return (

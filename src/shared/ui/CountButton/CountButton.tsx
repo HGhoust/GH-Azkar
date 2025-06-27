@@ -51,7 +51,7 @@ export const CountButton = ({
 				{azkar?.count !== 0 ? (
 					<div className='flex items-center gap-1'>
 						<motion.span
-							key='count-mode'
+							key='1'
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
@@ -72,7 +72,7 @@ export const CountButton = ({
 				) : (
 					<motion.div
 						className='flex items-center gap-1.5'
-						key='completed-mode'
+						key='2'
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						transition={{ duration: 0.5 }}

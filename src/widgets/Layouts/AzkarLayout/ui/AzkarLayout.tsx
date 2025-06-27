@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, Variants } from 'motion/react'
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { useDebounceCallBack } from '@/shared/lib/hooks/useDebounceCallBack'
 import type { timeOfDay } from '@/shared/types'
@@ -12,6 +12,7 @@ import { TDirection } from './azkarLayout.types'
 
 import { useSwiped } from './useSwiped'
 
+import { useRouteParams } from '@/shared/lib/hooks/useRouteParams'
 import Styles from './AzkarLayout.module.css'
 
 interface Props {
@@ -21,13 +22,13 @@ interface Props {
 
 export const AzkarLayout = ({ children, pathName }: Props) => {
 	const navigate = useNavigate()
-	const { id } = useParams<{ id: string }>()
+	const { id, timeOfDay } = useRouteParams()
 	const currentParamsId = id && !isNaN(Number(id)) ? Number(id) : 0
 	const isFirstRender = useRef(true)
 	const textElement = useRef<HTMLDivElement>(null)
 	const [swiped, setSwiped] = useState<TDirection | null>(null)
 
-	const { setAzkar, filteredAzkarsOfTime } = useAzkarStore()
+	const azkarStore = useAzkarStore()
 
 	const debounceNavigate = useDebounceCallBack(
 		(path: string) => navigate(path),
@@ -37,7 +38,7 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 	const { handlers } = useSwiped({
 		currentParamsId,
 		debounceNavigate,
-		filteredLength: filteredAzkarsOfTime?.length,
+		filteredLength: azkarStore.filteredAzkarsOfTime?.length,
 		pathName,
 		setSwiped,
 	})
@@ -61,7 +62,7 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 	}, [])
 
 	useEffect(() => {
-		setAzkar(currentParamsId, pathName)
+		azkarStore.setAzkar(currentParamsId, pathName)
 		scrollToTop()
 	}, [id, pathName])
 
@@ -71,7 +72,13 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 
 	return (
 		<div className={Styles.layout} {...handlers}>
-			<BackButton />
+			<div className='absolute -top-0.5 -left-2 flex items-center justify-between w-full'>
+				<BackButton absolute={false} />
+				<span className='text-dark-accent dark:text-text-white'>
+					{azkarStore?.azkar?.id !== undefined ? azkarStore?.azkar?.id + 1 : 0}/
+					{azkarStore[`${timeOfDay}Azkars`]?.length}
+				</span>
+			</div>
 			<AnimatePresence mode='wait'>
 				<motion.div
 					variants={variants}
@@ -90,7 +97,9 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 			<CountButton
 				scrollToTop={scrollToTop}
 				path={`/${pathName}/${currentParamsId + 1}`}
-				isAzkarId={currentParamsId < filteredAzkarsOfTime?.length - 1}
+				isAzkarId={
+					currentParamsId < azkarStore.filteredAzkarsOfTime?.length - 1
+				}
 			/>
 		</div>
 	)

@@ -1,5 +1,9 @@
 @reference '@/app/styles/index.css';
 
 .button {
-	@apply absolute -top-0.5 -left-2 flex items-center cursor-pointer;
+	@apply flex items-center cursor-pointer;
+}
+
+.buttonAbsolute {
+	@apply absolute -top-0.5 -left-2;
 }
