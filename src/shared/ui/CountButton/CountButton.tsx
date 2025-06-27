@@ -4,6 +4,7 @@ import AcceptIcon from '@/shared/assets/icons/accept.svg?react'
 import { timeOfDay } from '@/shared/types'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'motion/react'
+import { useEffect, useRef } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import Styles from './CountButton.module.css'
 
@@ -30,6 +31,8 @@ export const CountButton = ({
 	const pathName = location.pathname
 	const azkarTime = pathName.split('/')[1] as timeOfDay
 
+	const isFirstRender = useRef(true)
+
 	const azkars = useAzkarStore(state => state[`${azkarTime}Azkars`])
 
 	const azkar = azkars?.find(azkar => azkar?.id === paramsId)
@@ -45,6 +48,10 @@ export const CountButton = ({
 		}
 	}
 
+	useEffect(() => {
+		isFirstRender.current = false
+	}, [])
+
 	return (
 		<div className={clsx(className, Styles.countButton)} onClick={onClick}>
 			<AnimatePresence mode='wait'>
@@ -52,8 +59,8 @@ export const CountButton = ({
 					<div className='flex items-center gap-1'>
 						<motion.span
 							key='1'
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
+							initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
+							animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
 							exit={{ opacity: 0 }}
 							transition={{ duration: 0.5 }}
 						>
@@ -61,8 +68,8 @@ export const CountButton = ({
 						</motion.span>
 						<motion.span
 							key='count-mode'
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
+							initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
+							animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
 							transition={{ duration: 0.5 }}
 							exit={{ opacity: 0 }}
 						>
@@ -73,8 +80,8 @@ export const CountButton = ({
 					<motion.div
 						className='flex items-center gap-1.5'
 						key='2'
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
+						initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
+						animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
 						transition={{ duration: 0.5 }}
 						exit={{ opacity: 0 }}
 					>

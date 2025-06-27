@@ -44,14 +44,11 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 	})
 
 	const variants: Variants = {
-		initial: {
-			opacity: isFirstRender.current ? 0 : 1,
-		},
 		exit: (swipe: TDirection) => ({
 			x: swipe === 'left' ? -100 : 100,
 			opacity: 0,
 		}),
-		animate: { x: 0, opacity: 1 },
+		animate: { x: 0 },
 	}
 
 	const scrollToTop = useCallback(() => {
@@ -83,7 +80,6 @@ export const AzkarLayout = ({ children, pathName }: Props) => {
 				<motion.div
 					variants={variants}
 					key={id}
-					initial='initial'
 					animate='animate'
 					exit='exit'
 					custom={swiped}

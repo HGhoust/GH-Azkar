@@ -20,16 +20,16 @@ export const Azkar = () => {
 	const { transcription } = useAzkarTextStore()
 
 	useEffect(() => {
-		setAzkar(Number(id), timeOfDay)
 		isFirstRender.current = false
+		setAzkar(Number(id), timeOfDay)
 	}, [])
 
 	return (
 		<AzkarLayout pathName={timeOfDay}>
 			{transcription === true && (
 				<motion.div
-					animate={{ opacity: 1 }}
-					initial={{ opacity: 0 }}
+					animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
+					initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
 					transition={{ duration: 0.7 }}
 					className={Styles.text}
 					style={{ fontFamily }}
@@ -40,8 +40,8 @@ export const Azkar = () => {
 
 			{transcription === false && (
 				<motion.div
-					animate={{ opacity: 1 }}
-					initial={{ opacity: 0 }}
+					animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
+					initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
 					transition={{ duration: 0.5 }}
 					className={Styles.textArabic}
 					style={{ fontFamily }}
