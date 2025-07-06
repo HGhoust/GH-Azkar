@@ -1,9 +1,9 @@
+import Settings from '@/shared/assets/icons/settings.svg?react'
 import { IconComponent } from '@/shared/types'
 import { NavigateButton } from '@/shared/ui/NavigateButton'
 import { useLocation, useNavigate } from 'react-router'
 import Category from '../assets/icons/category.svg?react'
 import People from '../assets/icons/people.svg?react'
-import Settings from '../assets/icons/settings.svg?react'
 import { navigateBarButtons } from './navigateBar.data'
 
 import Styles from './NavigateBar.module.css'

@@ -14,6 +14,7 @@ import Styles from './Azkar.module.css'
 export const Azkar = () => {
 	const { setAzkar, azkar } = useAzkarStore()
 	const { fontFamily } = useFontFamilyStore()
+	const { fontSize } = useAzkarTextStore()
 	const { id, timeOfDay } = useRouteParams()
 	const isFirstRender = useRef(true)
 
@@ -32,7 +33,7 @@ export const Azkar = () => {
 					initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
 					transition={{ duration: 0.7 }}
 					className={Styles.text}
-					style={{ fontFamily }}
+					style={{ fontFamily, fontSize }}
 				>
 					{azkar?.transcription}
 				</motion.div>
@@ -44,7 +45,7 @@ export const Azkar = () => {
 					initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
 					transition={{ duration: 0.5 }}
 					className={Styles.textArabic}
-					style={{ fontFamily }}
+					style={{ fontFamily, fontSize }}
 				>
 					{azkar?.text}
 				</motion.div>

@@ -1,11 +1,18 @@
 import { useAzkarStore } from '@/entities/data/model/azkarStore'
-import { useAzkarTextStore } from '@/entities/data/model/settingsStore'
-import AcceptIcon from '@/shared/assets/icons/accept.svg?react'
+import {
+	useAzkarTextStore,
+	useButtonStore,
+} from '@/entities/data/model/settingsStore'
+import ButtonIcon from '@/shared/assets/icons/button.svg?react'
+import Settings from '@/shared/assets/icons/settings.svg?react'
+import TextIcon from '@/shared/assets/icons/text.svg?react'
 import { timeOfDay } from '@/shared/types'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'motion/react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
+import { Accepted } from './Accepted'
+import { Count } from './Count'
 import Styles from './CountButton.module.css'
 
 interface Props {
@@ -30,6 +37,10 @@ export const CountButton = ({
 	const paramsId = Number(id)
 	const pathName = location.pathname
 	const azkarTime = pathName.split('/')[1] as timeOfDay
+	const [buttonSettings, setButtonSettings] = useState<boolean>(false)
+	const { buttonSize, setButtonSize } = useButtonStore()
+
+	const { setFontSize } = useAzkarTextStore()
 
 	const isFirstRender = useRef(true)
 
@@ -48,52 +59,29 @@ export const CountButton = ({
 		}
 	}
 
+	const isMiniSize = buttonSize === '1' || buttonSize === '0'
+
 	useEffect(() => {
 		isFirstRender.current = false
 	}, [])
 
 	return (
-		<div className={clsx(className, Styles.countButton)} onClick={onClick}>
+		<div
+			style={{ flex: buttonSize }}
+			className={clsx(className, Styles.countButton)}
+			onClick={onClick}
+		>
 			<AnimatePresence mode='wait'>
 				{azkar?.count !== 0 ? (
-					<div className='flex items-center gap-1'>
-						<motion.span
-							key='1'
-							initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
-							animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
-							exit={{ opacity: 0 }}
-							transition={{ duration: 0.5 }}
-						>
-							Осталось
-						</motion.span>
-						<motion.span
-							key='count-mode'
-							initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
-							animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
-							transition={{ duration: 0.5 }}
-							exit={{ opacity: 0 }}
-						>
-							{azkar?.count}
-						</motion.span>
-					</div>
+					<Count azkar={azkar} isFirstRender={isFirstRender.current} />
 				) : (
-					<motion.div
-						className='flex items-center gap-1.5'
-						key='2'
-						initial={isFirstRender.current ? { opacity: 1 } : { opacity: 0 }}
-						animate={isFirstRender.current ? { opacity: 0 } : { opacity: 1 }}
-						transition={{ duration: 0.5 }}
-						exit={{ opacity: 0 }}
-					>
-						<motion.span key='completed-mode' transition={{ duration: 0.5 }}>
-							Прочитано
-						</motion.span>
-						<AcceptIcon className='size-4 dark:text-white' />
-					</motion.div>
+					<Accepted isFirstRender={isFirstRender.current} />
 				)}
 			</AnimatePresence>
 			<span
-				className={Styles.transcription}
+				className={clsx(
+					isMiniSize ? Styles.transcriptionMini : Styles.transcription
+				)}
 				onClick={e => {
 					setTranscription()
 					e.stopPropagation()
@@ -101,6 +89,57 @@ export const CountButton = ({
 			>
 				{transcription ? 'Текст' : 'Транскрипция'}
 			</span>
+
+			<div
+				className={clsx(
+					'absolute right-5 flex items-center gap-2',
+					isMiniSize
+						? `flex-row ${
+								buttonSize === '0' ? 'bottom-1/2' : 'bottom-7'
+						  } justify-end  translate-y-1/2`
+						: 'flex-col bottom-4 w-7'
+				)}
+			>
+				<AnimatePresence mode='wait'>
+					{buttonSettings && (
+						<motion.div
+							initial={isMiniSize ? { width: 0 } : { height: 0 }}
+							animate={{ width: 'min-content', height: 'min-content' }}
+							exit={isMiniSize ? { width: 50 } : { height: 50 }}
+							transition={{ duration: 0.1, ease: 'circInOut' }}
+							className={clsx(
+								{
+									'flex-row px-3 py-1 gap-5': isMiniSize,
+								},
+								'border border-gray-200 rounded-2xl shadow-sm flex flex-col gap-3 px-1 py-3 bg-white'
+							)}
+						>
+							<TextIcon
+								className={clsx(isMiniSize ? 'size-6' : 'size-7')}
+								onClick={e => {
+									e.stopPropagation()
+									setFontSize()
+								}}
+							/>
+							<ButtonIcon
+								className={clsx(isMiniSize ? 'size-6' : 'size-7')}
+								onClick={e => {
+									e.stopPropagation()
+									setButtonSize()
+								}}
+							/>
+						</motion.div>
+					)}
+				</AnimatePresence>
+				<button
+					onClick={event => {
+						event.stopPropagation()
+						setButtonSettings(prev => !prev)
+					}}
+				>
+					<Settings className='size-7.5' />
+				</button>
+			</div>
 		</div>
 	)
 }

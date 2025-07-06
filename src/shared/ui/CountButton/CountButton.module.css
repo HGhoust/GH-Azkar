@@ -1,11 +1,15 @@
 @reference '@/app/styles/index.css';
 
 .countButton {
-	@apply bg-white shadow-sm rounded-2xl flex-1 p-4 relative;
+	@apply bg-white shadow-sm rounded-2xl p-4 relative;
 }
 
 .transcription {
 	@apply pl-3 absolute right-7 top-4;
+}
+
+.transcriptionMini {
+	@apply pl-3 absolute right-20 top-4;
 }
 
 :global(.dark) .countButton {

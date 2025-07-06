@@ -9,7 +9,7 @@ interface IFontFamily {
 export const useFontFamilyStore = create<IFontFamily>()(
 	persist(
 		set => ({
-			fontFamily: 'Arial',
+			fontFamily: 'Aria',
 			setFontFamily: font => set({ fontFamily: font }),
 		}),
 		{

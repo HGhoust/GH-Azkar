@@ -1,7 +1,7 @@
 import AcceptIcon from '@/shared/assets/icons/accept.svg?react'
-import Dua from '@/shared/assets/icons/dua.svg?react'
-import Note from '@/shared/assets/icons/note.svg?react'
-import Quran from '@/shared/assets/icons/quran.svg?react'
+import Dua from '@/shared/assets/icons/azkar/dua.svg?react'
+import Note from '@/shared/assets/icons/azkar/note.svg?react'
+import Quran from '@/shared/assets/icons/azkar/quran.svg?react'
 
 import { titles } from '@/pages/Home/model/homeCategory.data'
 import { IconHomeCategoryObj } from '@/pages/Home/types/homeCategory.types'

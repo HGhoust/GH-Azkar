@@ -10,5 +10,5 @@
 
 .textWrapper {
 	touch-action: pan-y;
-	@apply flex-1 overflow-auto;
+	@apply flex-3 overflow-auto;
 }
